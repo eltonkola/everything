@@ -1,49 +1,53 @@
 package com.eltonkola.everything
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.painterResource
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.compose.setSingletonImageLoaderFactory
+import coil3.disk.DiskCache
+import coil3.memory.MemoryCache
+import coil3.request.CachePolicy
+import coil3.request.crossfade
+import coil3.util.DebugLogger
+import com.eltonkola.everything.ui.AppNavigation
+import com.eltonkola.everything.ui.theme.AppTheme
+import okio.FileSystem
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-import everything.composeapp.generated.resources.Res
-import everything.composeapp.generated.resources.compose_multiplatform
+fun getAsyncImageLoader(context: PlatformContext) =
+    ImageLoader.Builder(context)
+        .memoryCachePolicy(CachePolicy.ENABLED)
+        .memoryCache {
+            MemoryCache.Builder()
+                .maxSizePercent(context, 0.3)
+                .strongReferencesEnabled(true)
+                .build()
+        }.crossfade(true)
+        .logger(DebugLogger())
+        .diskCachePolicy(CachePolicy.ENABLED)
+        .diskCache { newDiskCache() }
+        .build()
+
+fun newDiskCache(): DiskCache {
+    return DiskCache.Builder().directory(FileSystem.SYSTEM_TEMPORARY_DIRECTORY / "image_cache")
+        .maxSizeBytes(512L * 1024 * 1024) // 512MB
+        .build()
+}
 
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
+    setSingletonImageLoaderFactory { context ->
+        getAsyncImageLoader(context)
+    }
+    AppTheme{
+        Surface(
+            modifier = Modifier.fillMaxSize(),
         ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
-            }
+            AppNavigation()
         }
     }
 }

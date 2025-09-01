@@ -1,0 +1,29 @@
+type=note
+created=2024-01-15T10:30:00Z
+edited=2024-01-15T14:22:00Z
+tags=project,brainstorm,mobile
+title=KMM Note Taking App Ideas
+------
+------
+# KMM Note Taking App
+
+Initial brainstorming session for the cross-platform note taking application.
+
+## Core Features
+- Text-based storage for future-proofing
+- Multiple note types (text, todo, location)
+- Tag-based organization
+- Markdown support for rich formatting
+
+## Technical Decisions
+- Kotlin Multiplatform Mobile (KMM)
+- Three-section format: common fields | type fields | content
+- Simple parsing with clear separators
+
+## Next Steps
+1. Implement basic parser
+2. Create UI for note types
+3. Add search functionality
+4. Consider sync strategy
+
+**Note**: Keep it simple but extensible for future note types.

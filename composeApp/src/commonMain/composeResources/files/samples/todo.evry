@@ -1,0 +1,30 @@
+type=todo
+created=2024-01-14T09:15:00Z
+edited=2024-01-15T16:45:00Z
+tags=personal,grocery,weekend
+title=Weekend Shopping List
+------
+priority[medium]
+due[2024-01-16T18:00:00Z]
+reminder[60]
+------
+# Weekend Shopping
+
+## Groceries
+- [ ] Fresh vegetables (spinach, carrots, bell peppers)
+- [x] Milk and eggs
+- [ ] Whole grain bread
+- [ ] Greek yogurt
+- [x] Chicken breast
+
+## Household Items
+- [ ] Laundry detergent
+- [ ] Paper towels
+- [ ] Light bulbs (LED, 60W equivalent)
+
+## Personal
+- [x] Pick up dry cleaning
+- [ ] Buy birthday gift for Sarah
+- [ ] Schedule dentist appointment
+
+**Remember**: Check for coupons before leaving!
